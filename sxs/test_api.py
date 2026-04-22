@@ -1,5 +1,5 @@
 import os
-from http.client import responses
+
 
 from openai import OpenAI
 from get_api import get_openai_key
@@ -11,7 +11,7 @@ client = OpenAI(
 )
 
 # noinspection PyTypeChecker
-completion = client.chat.completions.create(
+response = client.chat.completions.create(
     # 模型列表：https://help.aliyun.com/zh/model-studio/getting-started/models
     model="qwen-plus",
     messages=[
@@ -19,6 +19,6 @@ completion = client.chat.completions.create(
         {"role": "user", "content": "你是谁？"},#用户语言
     ]
 )
-print(completion.model_dump_json())
-print(completion.choices[0].message.content)#json,字典{}直接用key找-->choices，
+print(response.model_dump_json())
+print(response.choices[0].message.content)#json,字典{}直接用key找-->choices，
 # []数组用索引[0]找到第一项，其是个字典，再从中逐级提取
