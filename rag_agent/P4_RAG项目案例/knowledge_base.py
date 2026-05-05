@@ -16,7 +16,8 @@ def check_md5(md5_str: str):
     """
     if not os.path.exists(config.md5_path):
         # if进入表示文件不存在，那肯定没有处理过这个md5了
-        open(config.md5_path, 'w', encoding='utf-8').close()
+        open(config.md5_path, 'w', encoding='utf-8').close()#close是open返回文件对象的一个成员函数
+        #该用法即用打开的方式创建一个新对象，随即退出，留下一个空对象
         return False
     else:
         for line in open(config.md5_path, 'r', encoding='utf-8').readlines():
@@ -88,7 +89,7 @@ class KnowledgeBaseService(object):
         self.chroma.add_texts(      # 内容就加载到向量库中了
             # iterable -> list \ tuple
             knowledge_chunks,
-            metadatas=[metadata for _ in knowledge_chunks],
+            metadatas=[metadata for _ in knowledge_chunks],#把metadata放入[]for _ in knowledge_chunks次
         )
 
         #

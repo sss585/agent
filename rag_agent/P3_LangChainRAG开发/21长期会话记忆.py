@@ -2,6 +2,7 @@ import os, json
 from typing import Sequence
 
 from langchain_community.chat_models import ChatTongyi
+from langchain_core.chat_history import BaseChatMessageHistory
 from langchain_core.messages import message_to_dict, messages_from_dict, BaseMessage
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import MessagesPlaceholder, ChatPromptTemplate
@@ -60,7 +61,7 @@ class FileChatMessageHistory(BaseChatMessageHistory):
 
 
 
-model = ChatTongyi(model="qwen3-max")
+model = ChatTongyi(model="qwen3-max",api_key="sk-9a7479f5fe934023acc880947d0e5bee")
 # prompt = PromptTemplate.from_template(
 #     "你需要根据会话历史回应用户问题。对话历史：{chat_history}，用户提问：{input}，请回答"
 # )
@@ -74,13 +75,16 @@ prompt = ChatPromptTemplate.from_messages(
 
 str_parser = StrOutputParser()
 
+def print_promptshow(full_prompt):
+    print("="*20, full_prompt, "="*20)
+    return full_prompt
 
 def print_prompt(full_prompt):
     print("="*20, full_prompt.to_string(), "="*20)
     return full_prompt
 
 
-base_chain = prompt | print_prompt | model | str_parser
+base_chain = print_promptshow |prompt | print_prompt | model | str_parser
 
 def get_history(session_id):
     return FileChatMessageHistory(session_id, "./chat_history")

@@ -8,7 +8,7 @@ Streamlit：当WEB页面元素发生变化，则代码重新执行一遍
 import time
 
 import streamlit as st
-from knowledge_base import KnowledgeBaseService
+from knowledge_base import KnowledgeBase
 
 # 添加网页标题
 st.title("知识库更新服务")#文件标题
@@ -21,8 +21,8 @@ uploader_file = st.file_uploader(#文件上传框
 )
 
 # session_state就是一个字典
-# if "service" not in st.session_state:
-#     st.session_state["service"] = KnowledgeBaseService()
+if "service" not in st.session_state:
+    st.session_state["service"] = KnowledgeBase()
 
 
 if uploader_file is not None:
@@ -37,10 +37,10 @@ if uploader_file is not None:
     # get_value -> bytes -> decode('utf-8')得到二进制再解码
     text = uploader_file.getvalue().decode("utf-8")
     st.write(text)
-    # with st.spinner("载入知识库中。。。"):       # 在spinner内的代码执行过程中，会有一个转圈动画
-    #     time.sleep(1)
-    #     result = st.session_state["service"].upload_by_str(text, file_name)
-    #     st.write(result)
+    with st.spinner("载入知识库中。。。"):       # 在spinner内的代码执行过程中，会有一个转圈动画
+        time.sleep(1)
+        result = st.session_state["service"].upload_by_str(text, file_name)
+        st.write(result)
 
 
 

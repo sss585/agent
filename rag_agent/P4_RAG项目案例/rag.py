@@ -53,6 +53,7 @@ class RagService(object):
             return formatted_str
 
         def format_for_retriever(value: dict) -> str:
+
             return value["input"]
 
         def format_for_prompt_template(value):
